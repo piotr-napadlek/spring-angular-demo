@@ -1,0 +1,17 @@
+{
+  "paths": {
+    "tmp": ".tmp",
+    "dist": "dist",
+    "src": "app",
+    "testSrc": "test",
+    "testOutput": "test/test-output"
+  },
+  "styles": {
+    "type": "less",
+    "output": "css/app.css"
+  },
+  "proxy": {
+    "baseUrl": "http://localhost:9713",
+    "context": "/"
+  }
+}

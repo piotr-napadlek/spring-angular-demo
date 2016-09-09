@@ -1,0 +1,1 @@
+web:    java $JAVA_OPTS -jar spring-template-webapp/target/dependency/webapp-runner.jar --port $PORT spring-template-webapp/target/*.war 
