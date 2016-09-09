@@ -1,7 +1,7 @@
 {
-    "name": "app",
-    "description": "Sample application making use of The JavaScript Open Application Standard Platform",
-    "author": "The OASP Team",
+    "name": "angular-demo",
+    "description": "Angular JS client side application demonstration",
+    "author": "Piotr Napadłek",
     "version": "0.0.1",
     "dependencies": {
         "connect": "3.4.0"

@@ -2,20 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>pl.templates.spring</groupId>
-		<artifactId>spring-template-xml</artifactId>
+		<groupId>pl.napadlek</groupId>
+		<artifactId>spring-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>spring-template-logic</artifactId>
-	<name>Spring business logic template</name>
-	
-	
+	<artifactId>spring-demo-model</artifactId>
+	<name>Spring model layer</name>
 	<dependencies>
 		<dependency>
-			<groupId>pl.templates.spring</groupId>
-			<artifactId>spring-template-data-access</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
 		</dependency>
 	</dependencies>
-	
 </project>

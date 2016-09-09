@@ -2,17 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>pl.templates.spring</groupId>
-		<artifactId>spring-template-xml</artifactId>
+		<groupId>pl.napadlek</groupId>
+		<artifactId>spring-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>spring-template-data-access</artifactId>
-	<name>Spring DAO</name>
+	<artifactId>spring-demo-data-access</artifactId>
+	<name>Spring DAL</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>pl.templates.spring</groupId>
-			<artifactId>spring-template-model</artifactId>
+			<groupId>pl.napadlek</groupId>
+			<artifactId>spring-demo-model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->

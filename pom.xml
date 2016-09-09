@@ -1,16 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>pl.templates.spring</groupId>
-    <artifactId>spring-template-xml</artifactId>
+    <groupId>pl.napadlek</groupId>
+    <artifactId>spring-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Spring multi tier application template with xml based config</name>
+    <name>Spring multi tier demo application with xml based config</name>
     <modules>
-        <module>spring-template-rest-ws</module>
-        <module>spring-template-logic</module>
-        <module>spring-template-model</module>
-        <module>spring-template-data-access</module>
+        <module>spring-demo-rest-ws</module>
+        <module>spring-demo-logic</module>
+        <module>spring-demo-model</module>
+        <module>spring-demo-data-access</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
