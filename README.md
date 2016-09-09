@@ -1,4 +1,4 @@
-# spring-rest-angular-template
+# Spring + AngularJS demo app
 Spring multi-tier web application with AngularJS frontend template that is runnable in any IDE via embedded jetty, runnable in any OS using embedded tomcat
 runner and deployable to any server as a single .war file!
 ## Prerequisites
