@@ -7,7 +7,7 @@
     angular.module('app', [
         'ngRoute',
         'app.router',
-        'app.things',
+        'app.tree',
         'app.common'
     ])
 
