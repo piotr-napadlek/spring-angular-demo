@@ -9,7 +9,8 @@
             </a>
 
             <span class="content-display" ng-if="!node.editMode">
-                <span>{{node.value}}</span>
+                <span class="node-value">{{node.value}}</span>
+                <span class="root-sum">sum: {{node.rootSum}}</span>
                 <div class="pull-right">
                     <a class="btn btn-primary btn-xs" data-nodrag ng-click="setEditMode(true, this)">
                         <span class="glyphicon glyphicon-edit"></span>
@@ -24,7 +25,7 @@
             </span>
 
             <span ng-if="node.editMode">
-                <input type="text" ng-model="node.value">
+                <input class="node-value" type="text" ng-model="node.value">
                 <div class="pull-right" >
                     <a class="btn btn-success btn-xs" ng-click="saveNode(this)">
                         <span class="glyphicon glyphicon-ok"></span>
@@ -38,7 +39,7 @@
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.subNodes" ng-class="{hidden: collapsed}">
-        <li ng-repeat="node in node.subNodes" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'">
+        <li ng-repeat="node in node.subNodes" ui-tree-node ng-include="'nodes_renderer.html'">
         </li>
     </ol>
 </script>
@@ -46,7 +47,7 @@
 <div class="row" style="padding-top: 40px" ng-controller="TreePanelController">
     <div class="col-md-6">
         <div>
-            <div ui-tree id="tree2-root" data-clone-enabled="false">
+            <div ui-tree>
                 <ol ui-tree-nodes="" ng-model="nodesStructure">
                     <li ng-repeat="node in nodesStructure" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'"></li>
                 </ol>

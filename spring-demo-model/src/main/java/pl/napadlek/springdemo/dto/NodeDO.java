@@ -11,6 +11,7 @@ public class NodeDO {
     private double value;
     private double lastValue;
     private Long parentId;
+    private double rootSum;
     private List<NodeDO> subNodes;
     private boolean persisted;
     private boolean childrenLoaded;
@@ -56,6 +57,14 @@ public class NodeDO {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public double getRootSum() {
+        return rootSum;
+    }
+
+    public void setRootSum(double rootSum) {
+        this.rootSum = rootSum;
     }
 
     public boolean isPersisted() {

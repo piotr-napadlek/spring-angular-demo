@@ -33,7 +33,8 @@
             $scope.saveNode = function (scope) {
                 var childrenLoaded = scope.node.childrenLoaded;
                 scope.node.value = parseFloat(scope.node.value);
-                restService.update('nodes', scope.node).then(function (response) {
+                var parentRootSum = scope.$parentNodeScope ? scope.$parentNodeScope.node.rootSum : 0;
+                restService.update('nodes', scope.node, {parentRootSum: parentRootSum}).then(function (response) {
                     angular.copy(response.data, scope.node);
                     scope.node.childrenLoaded = childrenLoaded;
                 });
@@ -41,7 +42,7 @@
 
             $scope.toggleNode = function (scope) {
                 if (scope.collapsed && !scope.node.childrenLoaded) {
-                    restService.read('nodes/' + scope.node.id).then(function (response) {
+                    restService.read('nodes/' + scope.node.id, {parentRootSum: scope.node.rootSum}).then(function (response) {
                         if (!scope.node.subNodes) {
                             scope.node.subNodes = [];
                         }

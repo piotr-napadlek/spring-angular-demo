@@ -19,7 +19,10 @@ public class NodeService {
 
 
     public List<NodeDO> findRootNodes() {
-        return nodeRepository.findRootNodes().stream().map(NodeDO::new).collect(Collectors.toList());
+        return nodeRepository.findRootNodes().stream()
+                .map(NodeDO::new)
+                .peek(node -> node.setRootSum(node.getValue()))
+                .collect(Collectors.toList());
     }
 
     public List<NodeDO> findChildrenOf(long parentNodeId) {
@@ -44,6 +47,15 @@ public class NodeService {
     public void removeNode(long nodeId) {
         findChildrenOf(nodeId).forEach(child -> removeNode(child.getId()));
         nodeRepository.delete(nodeId);
+    }
+
+    public void calculateChildrenRootSum(double parentRootSum, List<NodeDO> children) {
+        if (children != null) {
+            children.forEach(child -> {
+                child.setRootSum(parentRootSum + child.getValue());
+                calculateChildrenRootSum(child.getRootSum(), child.getSubNodes());
+            });
+        }
     }
 
     private void applyNodeDODataToEntity(NodeDO nodeDO, NodeBE nodeToSave) {
