@@ -1,16 +1,59 @@
-<div ui-tree ng-controller="TreePanelController" data-ng-init="search()" style="padding-top: 40px">
-    <ol ui-tree-nodes="" ng-model="list">
-        <li ng-repeat="item in list" ui-tree-node>
-            <div ui-tree-handle>
-                {{item.name}}
-            </div>
-            <ol ui-tree-nodes="" ng-model="item.items">
-                <li ng-repeat="subItem in item.items" ui-tree-node>
-                    <div ui-tree-handle>
-                        {{subItem.name}}
-                    </div>
-                </li>
-            </ol>
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div class="tree-node">
+        <div class="pull-left tree-handle" ui-tree-handle style="line-height: 28px">
+            <span class="glyphicon glyphicon-move"></span>
+        </div>
+        <div class="tree-node-content">
+            <a class="btn btn-success btn-xs" data-nodrag ng-click="toggleNode(this)" ng-if="!editMode">
+                <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+            </a>
+
+            <span class="content-display" ng-if="!node.editMode">
+                <span>{{node.value}}</span>
+                <div class="pull-right">
+                    <a class="btn btn-primary btn-xs" data-nodrag ng-click="setEditMode(true, this)">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <a class="btn btn-danger btn-xs" data-nodrag ng-click="deleteNode(this)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                    <a class="btn btn-success btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                </div>
+            </span>
+
+            <span ng-if="node.editMode">
+                <input type="text" ng-model="node.value">
+                <div class="pull-right" >
+                    <a class="btn btn-success btn-xs" ng-click="saveNode(this)">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </a>
+                    <a class="btn btn-danger btn-xs" ng-click="setEditMode(false, this)">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </a>
+                </div>
+            </span>
+
+        </div>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.subNodes" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.subNodes" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'">
         </li>
     </ol>
+</script>
+
+<div class="row" style="padding-top: 40px" ng-controller="TreePanelController">
+    <div class="col-md-6">
+        <div>
+            <div ui-tree id="tree2-root" data-clone-enabled="false">
+                <ol ui-tree-nodes="" ng-model="nodesStructure">
+                    <li ng-repeat="node in nodesStructure" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
 </div>

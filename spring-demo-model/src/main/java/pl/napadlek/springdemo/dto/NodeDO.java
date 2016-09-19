@@ -1,0 +1,74 @@
+package pl.napadlek.springdemo.dto;
+
+import pl.napadlek.springdemo.entity.NodeBE;
+
+import java.util.List;
+import java.util.Optional;
+
+public class NodeDO {
+
+    private Long id;
+    private double value;
+    private Long parentId;
+    private List<NodeDO> subNodes;
+    private boolean persisted;
+    private boolean childrenLoaded;
+
+    public NodeDO() {
+    }
+
+    public NodeDO(NodeBE nodeBE) {
+        this.id = nodeBE.getId();
+        this.value = nodeBE.getValue();
+        this.parentId = Optional.ofNullable(nodeBE.getParentNode()).map(NodeBE::getId).orElse(null);
+        this.persisted = true;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public List<NodeDO> getSubNodes() {
+        return subNodes;
+    }
+
+    public void setSubNodes(List<NodeDO> subNodes) {
+        this.subNodes = subNodes;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public boolean isPersisted() {
+        return persisted;
+    }
+
+    public void setPersisted(boolean persisted) {
+        this.persisted = persisted;
+    }
+
+    public boolean isChildrenLoaded() {
+        return childrenLoaded;
+    }
+
+    public void setChildrenLoaded(boolean childrenLoaded) {
+        this.childrenLoaded = childrenLoaded;
+    }
+}

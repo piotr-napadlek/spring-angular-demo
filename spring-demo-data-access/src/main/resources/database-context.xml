@@ -26,12 +26,12 @@
 		</property>
 		<property name="packagesToScan">
 			<array>
-				<value>pl.templates.spring.entity</value>
+				<value>pl.napadlek.springdemo.entity</value>
 			</array>
 		</property>
 	</bean>
 
-	<jpa:repositories base-package="pl.templates.spring.repository" />
+	<jpa:repositories base-package="pl.napadlek.springdemo.repository" />
 
 	<bean id="jinqJPAStreamProvider" class="org.jinq.jpa.JinqJPAStreamProvider">
 		<constructor-arg name="factory" ref="entityManagerFactory" />

@@ -11,7 +11,7 @@ body {
 }
 
 footer {
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
     left: 0;
@@ -47,7 +47,7 @@ footer {
 }
 
 tr.angular-ui-tree-empty {
-    height:100px
+    height:120px
 }
 
 .group-title {
@@ -69,12 +69,21 @@ tr.angular-ui-tree-empty {
 
 .tree-node-content {
     margin: 10px;
+    min-height: 30px;
+}
+.tree-node-content input {
+    max-height: 23px;
+    width: 60%;
+}
+span.content-display {
+    padding: 2px;
 }
 .tree-handle {
     padding: 10px;
     background: #428bca;
     color: #FFF;
     margin-right: 10px;
+    line-height: 28px;
 }
 
 .angular-ui-tree-handle:hover {

@@ -66,7 +66,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>pl.templates.spring.runner.EmbeddedJetty</mainClass>
+                            <mainClass>pl.napadlek.springdemo.runner.EmbeddedJetty</mainClass>
                         </manifest>
                     </archive>
                     <webXml>src\main\resources\WEB-INF\web.xml</webXml>
