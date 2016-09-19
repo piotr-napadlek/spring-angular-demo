@@ -9,10 +9,12 @@ public class NodeDO {
 
     private Long id;
     private double value;
+    private double lastValue;
     private Long parentId;
     private List<NodeDO> subNodes;
     private boolean persisted;
     private boolean childrenLoaded;
+    private boolean editMode;
 
     public NodeDO() {
     }
@@ -70,5 +72,21 @@ public class NodeDO {
 
     public void setChildrenLoaded(boolean childrenLoaded) {
         this.childrenLoaded = childrenLoaded;
+    }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public double getLastValue() {
+        return lastValue;
+    }
+
+    public void setLastValue(double lastValue) {
+        this.lastValue = lastValue;
     }
 }

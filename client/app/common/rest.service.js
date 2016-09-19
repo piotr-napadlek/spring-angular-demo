@@ -22,7 +22,7 @@
                 return $http.delete(currentContext + path, {
                     timeout: 10000,
                     params: params
-                })
+                });
             }
         };
     });
