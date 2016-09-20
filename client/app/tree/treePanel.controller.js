@@ -10,6 +10,29 @@
             $scope.autoSave = true;
             $scope.requestsList = [];
 
+            $scope.treeEvents = {
+                dropped: function (event) {
+                    var sourceScope = event.source.nodeScope;
+                    var destinationScope = event.dest.nodesScope.$nodeScope;
+                    if (destinationScope === null) {
+                        if (sourceScope.node.parentId !== null) {
+                            $scope.saveNode(sourceScope, {id: null, rootSum: 0});
+                        }
+                    } else {
+                        if (sourceScope.node.parentId !== destinationScope.$modelValue.id) {
+                            $scope.saveNode(sourceScope, destinationScope.$modelValue);
+                        }
+                    }
+                },
+                accept: function (sourceNodeScope, destNodesScope) {
+                    if (destNodesScope.$nodeScope) {
+                        return !destNodesScope.$nodeScope.$modelValue.dirty
+                    } else {
+                        return true;
+                    }
+                }
+            };
+
             $scope.setEditMode = function (editMode, scope) {
                 $scope.globalEditMode = editMode;
                 var editedNode = scope.node;
@@ -29,11 +52,13 @@
                 scope.node.markedToRemove = true;
                 scope.node.dirty = true;
                 function markChildrenToRemove(children) {
-                    children.forEach(function (child) {
-                        child.markedToRemove = true;
-                        child.dirty = true;
-                        markChildrenToRemove(child.subNodes);
-                    });
+                    if (children) {
+                        children.forEach(function (child) {
+                            child.markedToRemove = true;
+                            child.dirty = true;
+                            markChildrenToRemove(child.subNodes);
+                        });
+                    }
                 }
                 markChildrenToRemove(scope.node.subNodes);
                 var deleteFunction = function() {
@@ -49,11 +74,15 @@
                 }
             };
 
-            $scope.saveNode = function (scope) {
+            $scope.saveNode = function (scope, parent) {
                 scope.node.value = parseFloat(scope.node.value);
                 scope.node.dirty = true;
                 var saveFunction = function() {
                     var parentRootSum = scope.$parentNodeScope ? scope.$parentNodeScope.node.rootSum : 0;
+                    if (parent) {
+                        parentRootSum = parent.rootSum;
+                        scope.node.parentId = parent.id;
+                    }
                     return restService.update('nodes', scope.node, {parentRootSum: parentRootSum}).then(function (response) {
                         scope.node.rootSum = response.data.rootSum;
                         scope.node.id = response.data.id;
@@ -127,7 +156,8 @@
                     lastValue: 0,
                     subNodes: [],
                     editMode: true,
-                    parentId: nodeData.id
+                    parentId: nodeData.id,
+                    childrenLoaded: true
                 });
                 $scope.globalEditMode = true;
             };
@@ -142,7 +172,8 @@
                     lastValue: 0,
                     subNodes: [],
                     editMode: true,
-                    parentId: null
+                    parentId: null,
+                    childrenLoaded: true
                 });
                 $scope.globalEditMode = true;
             };

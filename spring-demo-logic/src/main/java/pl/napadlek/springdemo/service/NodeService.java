@@ -62,6 +62,8 @@ public class NodeService {
         nodeToSave.setValue(nodeDO.getValue());
         if (nodeDO.getParentId() != null) {
             nodeToSave.setParentNode(nodeRepository.getOne(nodeDO.getParentId()));
+        } else {
+            nodeToSave.setParentNode(null);
         }
     }
 

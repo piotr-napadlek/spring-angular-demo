@@ -1,6 +1,7 @@
 <script type="text/ng-template" id="nodes_renderer.html">
     <div class="tree-node"  ng-class="{'dirty': node.dirty}">
-        <div class="pull-left tree-handle" ui-tree-handle style="line-height: 28px">
+        <div class="pull-left tree-handle" ui-tree-handle style="line-height: 28px" ng-attr-data-nodrag="{{node.dirty || undefined}}"
+             ng-class="{'grayed': node.dirty}">
             <span class="glyphicon glyphicon-move"></span>
         </div>
         <div class="tree-node-content">
@@ -47,7 +48,7 @@
 <div class="row" style="padding-top: 40px" ng-controller="TreePanelController">
     <div class="col-md-8">
         <div>
-            <div ui-tree>
+            <div ui-tree="treeEvents">
                 <ol ui-tree-nodes="" ng-model="nodesStructure">
                     <li ng-repeat="node in nodesStructure" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'"></li>
                 </ol>
