@@ -3,10 +3,12 @@
 
     angular.module('app.tree')
 
-        .controller('TreePanelController', function (restService, $scope) {
+        .controller('TreePanelController', function (restService, $scope, $q) {
 
             $scope.nodesStructure = [];
             $scope.globalEditMode = false;
+            $scope.autoSave = true;
+            $scope.requestsList = [];
 
             $scope.setEditMode = function (editMode, scope) {
                 $scope.globalEditMode = editMode;
@@ -24,28 +26,77 @@
             };
 
             $scope.deleteNode = function (scope) {
-                restService.delete('nodes/' + scope.node.id).then(function (response) {
-                    if (response.status === 200) {
-                        scope.remove();
-                    }
-                });
+                scope.node.markedToRemove = true;
+                scope.node.dirty = true;
+                function markChildrenToRemove(children) {
+                    children.forEach(function (child) {
+                        child.markedToRemove = true;
+                        child.dirty = true;
+                        markChildrenToRemove(child.subNodes);
+                    });
+                }
+                markChildrenToRemove(scope.node.subNodes);
+                var deleteFunction = function() {
+                    return restService.delete('nodes/' + scope.node.id).then(function (response) {
+                        if (response.status === 200) {
+                            scope.remove();
+                        }
+                    });
+                };
+                $scope.requestsList.push(deleteFunction);
+                if ($scope.autoSave) {
+                    $scope.saveAll();
+                }
             };
 
             $scope.saveNode = function (scope) {
                 scope.node.value = parseFloat(scope.node.value);
-                var parentRootSum = scope.$parentNodeScope ? scope.$parentNodeScope.node.rootSum : 0;
-                restService.update('nodes', scope.node, {parentRootSum: parentRootSum}).then(function (response) {
-                    scope.node.rootSum = response.data.rootSum;
-                    scope.node.id = response.data.id;
-                    scope.node.value = response.data.value;
-                    propagateChildren(scope.node.subNodes, response.data.subNodes);
-                    scope.node.editMode = false;
-                    $scope.globalEditMode = false;
-                });
+                scope.node.dirty = true;
+                var saveFunction = function() {
+                    var parentRootSum = scope.$parentNodeScope ? scope.$parentNodeScope.node.rootSum : 0;
+                    return restService.update('nodes', scope.node, {parentRootSum: parentRootSum}).then(function (response) {
+                        scope.node.rootSum = response.data.rootSum;
+                        scope.node.id = response.data.id;
+                        scope.node.value = response.data.value;
+                        scope.node.persisted = true;
+                        scope.node.dirty = false;
+                        propagateChildren(scope.node.subNodes, response.data.subNodes, scope.node);
+                    });
+                };
+                scope.node.editMode = false;
+                $scope.globalEditMode = false;
+                $scope.requestsList.push(saveFunction.bind(this));
+                if ($scope.autoSave) {
+                    $scope.saveAll();
+                }
             };
 
+            $scope.saveAll = function () {
+                serial($scope.requestsList);
+                $scope.requestsList = [];
+            };
+
+            $scope.autoSaveChanged = function () {
+                if ($scope.autoSave) {
+                    $scope.saveAll();
+                }
+            };
+
+            function serial(tasks) {
+                var prevPromise;
+                angular.forEach(tasks, function (task) {
+                    //First task
+                    if (!prevPromise) {
+                        prevPromise = task();
+                    } else {
+                        prevPromise = prevPromise.then(task);
+                    }
+                });
+                return prevPromise;
+            }
+
             $scope.toggleNode = function (scope) {
-                if (scope.collapsed && !scope.node.childrenLoaded) {
+                if (scope.collapsed && !scope.node.childrenLoaded && scope.node.persisted) {
                     restService.read('nodes/' + scope.node.id, {parentRootSum: scope.node.rootSum}).then(function (response) {
                         if (!scope.node.subNodes) {
                             scope.node.subNodes = [];
@@ -82,6 +133,9 @@
             };
 
             $scope.addNewRoot = function () {
+                if ($scope.globalEditMode) {
+                    return;
+                }
                 $scope.nodesStructure.push({
                     id: null,
                     value: 0,
@@ -112,12 +166,13 @@
                 return childFound;
             };
 
-            var propagateChildren = function (children, sourceChildren) {
+            var propagateChildren = function (children, sourceChildren, parent) {
                 if (children) {
                     angular.forEach(children, function (child) {
                         var foundNode = findNodeById(child.id, sourceChildren);
                         child.rootSum = foundNode.rootSum;
-                        propagateChildren(child.subNodes, foundNode.subNodes);
+                        child.parentId = parent.id;
+                        propagateChildren(child.subNodes, foundNode.subNodes, child);
                     });
                 }
             };

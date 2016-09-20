@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="nodes_renderer.html">
-    <div class="tree-node">
+    <div class="tree-node"  ng-class="{'dirty': node.dirty}">
         <div class="pull-left tree-handle" ui-tree-handle style="line-height: 28px">
             <span class="glyphicon glyphicon-move"></span>
         </div>
@@ -11,7 +11,7 @@
             <span class="content-display" ng-if="!node.editMode">
                 <span class="node-value">{{node.value}}</span>
                 <span class="root-sum">sum: {{node.rootSum}}</span>
-                <div class="pull-right" ng-if="!globalEditMode">
+                <div class="pull-right" ng-if="!globalEditMode && !node.markedToRemove">
                     <a class="btn btn-primary btn-xs" data-nodrag ng-click="setEditMode(true, this)">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
@@ -45,7 +45,7 @@
 </script>
 
 <div class="row" style="padding-top: 40px" ng-controller="TreePanelController">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div>
             <div ui-tree>
                 <ol ui-tree-nodes="" ng-model="nodesStructure">
@@ -54,7 +54,13 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <a class="btn btn-success btn-lg" ng-click="addNewRoot()">Add new root node</a>
+    <div class="col-md-4">
+        <a class="btn btn-success btn-lg" ng-click="addNewRoot()" ng-disabled="globalEditMode" style="width: 100%">
+            <span class="glyphicon glyphicon-plus"></span> Add new root node
+        </a><br/>
+        <input type="checkbox" ng-model="autoSave" ng-click="autoSaveChanged()"> Enable autosave </br>
+        <a class="btn btn-success btn-lg" ng-click="saveAll()" ng-disabled="globalEditMode || autoSave" style="width: 100%">
+            <span class="glyphicon glyphicon-save"></span> Save all
+        </a>
     </div>
 </div>
