@@ -6,18 +6,19 @@
         .controller('TreePanelController', function (restService, $scope) {
 
             $scope.nodesStructure = [];
+            $scope.globalEditMode = false;
 
             $scope.setEditMode = function (editMode, scope) {
+                $scope.globalEditMode = editMode;
                 var editedNode = scope.node;
-                if (editMode) {
-                    if (editedNode.persisted) {}
-                    editedNode.lastValue = editedNode.value;
-                } else {
+                if (!editMode) {
                     if (!editedNode.persisted) {
                         scope.remove();
                     } else {
                         editedNode.value = editedNode.lastValue;
                     }
+                } else {
+                    editedNode.lastValue = editedNode.value;
                 }
                 editedNode.editMode = editMode;
             };
@@ -31,12 +32,15 @@
             };
 
             $scope.saveNode = function (scope) {
-                var childrenLoaded = scope.node.childrenLoaded;
                 scope.node.value = parseFloat(scope.node.value);
                 var parentRootSum = scope.$parentNodeScope ? scope.$parentNodeScope.node.rootSum : 0;
                 restService.update('nodes', scope.node, {parentRootSum: parentRootSum}).then(function (response) {
-                    angular.copy(response.data, scope.node);
-                    scope.node.childrenLoaded = childrenLoaded;
+                    scope.node.rootSum = response.data.rootSum;
+                    scope.node.id = response.data.id;
+                    scope.node.value = response.data.value;
+                    propagateChildren(scope.node.subNodes, response.data.subNodes);
+                    scope.node.editMode = false;
+                    $scope.globalEditMode = false;
                 });
             };
 
@@ -74,6 +78,19 @@
                     editMode: true,
                     parentId: nodeData.id
                 });
+                $scope.globalEditMode = true;
+            };
+
+            $scope.addNewRoot = function () {
+                $scope.nodesStructure.push({
+                    id: null,
+                    value: 0,
+                    lastValue: 0,
+                    subNodes: [],
+                    editMode: true,
+                    parentId: null
+                });
+                $scope.globalEditMode = true;
             };
 
             var load = function () {
@@ -82,6 +99,27 @@
 
             var pasteData = function (response) {
                 angular.copy(response.data, $scope.nodesStructure);
+            };
+
+            var findNodeById = function (id, sourceNodes) {
+                var childFound = null;
+                angular.forEach(sourceNodes, function (child) {
+                    if (child.id === id) {
+                        childFound = child;
+                        return;
+                    }
+                });
+                return childFound;
+            };
+
+            var propagateChildren = function (children, sourceChildren) {
+                if (children) {
+                    angular.forEach(children, function (child) {
+                        var foundNode = findNodeById(child.id, sourceChildren);
+                        child.rootSum = foundNode.rootSum;
+                        propagateChildren(child.subNodes, foundNode.subNodes);
+                    });
+                }
             };
 
             load();

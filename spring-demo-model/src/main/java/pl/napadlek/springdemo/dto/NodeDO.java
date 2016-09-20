@@ -14,8 +14,6 @@ public class NodeDO {
     private double rootSum;
     private List<NodeDO> subNodes;
     private boolean persisted;
-    private boolean childrenLoaded;
-    private boolean editMode;
 
     public NodeDO() {
     }
@@ -73,22 +71,6 @@ public class NodeDO {
 
     public void setPersisted(boolean persisted) {
         this.persisted = persisted;
-    }
-
-    public boolean isChildrenLoaded() {
-        return childrenLoaded;
-    }
-
-    public void setChildrenLoaded(boolean childrenLoaded) {
-        this.childrenLoaded = childrenLoaded;
-    }
-
-    public boolean isEditMode() {
-        return editMode;
-    }
-
-    public void setEditMode(boolean editMode) {
-        this.editMode = editMode;
     }
 
     public double getLastValue() {

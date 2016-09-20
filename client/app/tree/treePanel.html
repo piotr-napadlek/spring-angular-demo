@@ -11,7 +11,7 @@
             <span class="content-display" ng-if="!node.editMode">
                 <span class="node-value">{{node.value}}</span>
                 <span class="root-sum">sum: {{node.rootSum}}</span>
-                <div class="pull-right">
+                <div class="pull-right" ng-if="!globalEditMode">
                     <a class="btn btn-primary btn-xs" data-nodrag ng-click="setEditMode(true, this)">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
@@ -39,7 +39,7 @@
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="node.subNodes" ng-class="{hidden: collapsed}">
-        <li ng-repeat="node in node.subNodes" ui-tree-node ng-include="'nodes_renderer.html'">
+        <li ng-repeat="node in node.subNodes" ui-tree-node data-collapsed="true" ng-include="'nodes_renderer.html'">
         </li>
     </ol>
 </script>
@@ -55,6 +55,6 @@
         </div>
     </div>
     <div class="col-md-6">
-
+        <a class="btn btn-success btn-lg" ng-click="addNewRoot()">Add new root node</a>
     </div>
 </div>
