@@ -3,7 +3,7 @@
 
     angular.module('app.tree')
 
-        .controller('TreePanelController', function (restService, $scope, $q) {
+        .controller('TreePanelController', function (restService, $scope) {
 
             $scope.nodesStructure = [];
             $scope.globalEditMode = false;
