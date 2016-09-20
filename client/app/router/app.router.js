@@ -8,6 +8,9 @@
         'ngRoute'
     ])
 
+    /**
+     * Shows us the right way.
+     */
         .config(function ($routeProvider) {
             $routeProvider
                 .when('/', {redirectTo: '/home'})

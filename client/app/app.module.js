@@ -5,7 +5,6 @@
      * Main app module with all its dependencies defined.
      */
     angular.module('app', [
-        'ngRoute',
         'app.router',
         'app.tree',
         'app.common'

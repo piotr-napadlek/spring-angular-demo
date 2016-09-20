@@ -9,11 +9,9 @@ public class NodeDO {
 
     private Long id;
     private double value;
-    private double lastValue;
     private Long parentId;
     private double rootSum;
     private List<NodeDO> subNodes;
-    private boolean persisted;
 
     public NodeDO() {
     }
@@ -22,7 +20,6 @@ public class NodeDO {
         this.id = nodeBE.getId();
         this.value = nodeBE.getValue();
         this.parentId = Optional.ofNullable(nodeBE.getParentNode()).map(NodeBE::getId).orElse(null);
-        this.persisted = true;
     }
 
     public Long getId() {
@@ -63,21 +60,5 @@ public class NodeDO {
 
     public void setRootSum(double rootSum) {
         this.rootSum = rootSum;
-    }
-
-    public boolean isPersisted() {
-        return persisted;
-    }
-
-    public void setPersisted(boolean persisted) {
-        this.persisted = persisted;
-    }
-
-    public double getLastValue() {
-        return lastValue;
-    }
-
-    public void setLastValue(double lastValue) {
-        this.lastValue = lastValue;
     }
 }
