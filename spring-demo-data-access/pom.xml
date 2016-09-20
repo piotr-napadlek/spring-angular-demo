@@ -33,12 +33,5 @@
 			<version>5.2.2.Final</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.jinq/jinq-jpa -->
-		<dependency>
-			<groupId>org.jinq</groupId>
-			<artifactId>jinq-jpa</artifactId>
-			<version>1.8.12</version>
-		</dependency>
-
 	</dependencies>
 </project>

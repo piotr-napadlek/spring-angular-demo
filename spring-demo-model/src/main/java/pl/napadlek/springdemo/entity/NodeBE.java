@@ -3,6 +3,9 @@ package pl.napadlek.springdemo.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Node Business Entity.
+ */
 @Entity
 @Table(name = "T_NODE")
 public class NodeBE implements Serializable{

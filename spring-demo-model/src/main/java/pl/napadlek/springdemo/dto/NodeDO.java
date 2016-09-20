@@ -5,6 +5,9 @@ import pl.napadlek.springdemo.entity.NodeBE;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Object corresponding to GUI data model.
+ */
 public class NodeDO {
 
     private Long id;
