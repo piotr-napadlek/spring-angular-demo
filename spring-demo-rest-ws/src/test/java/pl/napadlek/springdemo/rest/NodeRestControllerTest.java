@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/spring-test-context.xml")
 @WebAppConfiguration
-public class NodeRestControllerIT {
+public class NodeRestControllerTest {
 
     @Inject
     private NodeService nodeService;
