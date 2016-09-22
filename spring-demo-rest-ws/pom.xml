@@ -100,14 +100,39 @@
                 <version>1.4.0</version>
                 <executions>
                     <execution>
-                        <id>client-build</id>
+                        <id>npm-install</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>client-build</executable>
-                            <workingDirectory>${js.client.dir}/../</workingDirectory>
+                            <executable>npm</executable>
+                            <arguments>install</arguments>
+                            <workingDirectory>${js.client.dir}/</workingDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gulp-clean</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>gulp</executable>
+                            <arguments>clean</arguments>
+                            <workingDirectory>${js.client.dir}/</workingDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gulp-build</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>gulp</executable>
+                            <arguments>build:dist</arguments>
+                            <workingDirectory>${js.client.dir}/</workingDirectory>
                         </configuration>
                     </execution>
                 </executions>
